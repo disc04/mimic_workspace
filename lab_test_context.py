@@ -1,15 +1,6 @@
-import os
-from os.path import join
-from pathlib import Path
 
-# PROJECT_ROOT_PATH = Path(__file__).parent.parent
-MODEL_PATH = Path("models")
-RESULTS_PATH = Path("results")
-DATA_PATH = Path("data")
 
 """
-The structure allows quick navigation for clinical decision-making and supports both general screening and 
-specialized diagnostics.
 
 Test Category Organization Logic:
 Organ-based: Liver, kidney, cardiac, thyroid, pancreatic tests 
