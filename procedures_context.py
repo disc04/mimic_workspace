@@ -1,16 +1,4 @@
 """
-Dashboard ED Procedures Selection:
-
-    Intubation - Airway emergency, most critical intervention
-    Central line - Medication/fluid administration, hemodynamic monitoring
-    Arterial line - Blood pressure monitoring in unstable patients
-    NG/enteral tube - Decompression, feeding access
-    Peripheral IV - Universal need for vascular access
-    Thoracentesis - Pleural effusion drainage (common in dyspnea)
-    Lumbar puncture - Meningitis/SAH diagnosis
-    Femur fixation - Common trauma procedure
-    PEG/gastrostomy - ED-initiated nutritional support
-    Paracentesis - Ascites drainage (frequent in liver disease)
 
 Category Organization:
 
