@@ -1,0 +1,15 @@
+.DS_Store
+Thumbs.db
+
+/.idea
+
+.qodo/
+__pycache__/
+*.pyc
+*.log
+
+temp/
+models/
+results/
+data/
+
