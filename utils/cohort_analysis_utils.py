@@ -96,8 +96,6 @@ def run_lab_tests_analysis(labs, results_path):
         analyze_lab_tests_frequency(labs))
 
     cohort_plotting_utils.plot_lab_tests_frequency(test_frequency,
-                                                   category_frequency,
-                                                   tests_per_patient,
                                                    tests_per_admission,
                                                    join(results_path, "Lab_test_frequency_analysis.png"))
 

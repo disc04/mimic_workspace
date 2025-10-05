@@ -10,94 +10,6 @@ plt.style.use("seaborn-v0_8")
 sns.set_palette("Set2")
 warnings.filterwarnings('ignore')
 
-def plot_demographics1(df, data_type, save_path):
-    """Create robust and optimized demographics plots"""
-
-    # Clean input data
-    df = df.copy()
-    df = df.replace([np.inf, -np.inf], np.nan)
-
-    if "anchor_age" not in df or df["anchor_age"].dropna().empty:
-        raise ValueError("Column 'anchor_age' is missing or empty.")
-    if "gender" not in df or df["gender"].dropna().empty:
-        raise ValueError("Column 'gender' is missing or empty.")
-
-    df["anchor_age"] = pd.to_numeric(df["anchor_age"], errors="coerce")
-    df = df.dropna(subset=["anchor_age", "gender"])
-
-    # Initialize figure
-    fig, axes = plt.subplots(2, 2, figsize=(16, 12))
-    fig.suptitle(f"{data_type} Demographics: Age and Gender Distributions",
-                 fontsize=16, fontweight="bold")
-
-    # ---- 1️⃣ Age Distribution ----
-    age_mean = df["anchor_age"].mean()
-    age_median = df["anchor_age"].median()
-
-    axes[0, 0].hist(df["anchor_age"], bins=20, alpha=0.7,
-                    color="skyblue", edgecolor="black")
-    axes[0, 0].set_title("Age Distribution", fontweight="bold")
-    axes[0, 0].set_xlabel("Age (years)")
-    axes[0, 0].set_ylabel("Frequency")
-    axes[0, 0].grid(True, alpha=0.3)
-
-    # Add lines safely
-    if np.isfinite(age_mean):
-        axes[0, 0].axvline(age_mean, color="red", linestyle="--",
-                           alpha=0.8, label=f"Mean: {age_mean:.1f}")
-    if np.isfinite(age_median):
-        axes[0, 0].axvline(age_median, color="green", linestyle="--",
-                           alpha=0.8, label=f"Median: {age_median:.1f}")
-    axes[0, 0].legend()
-
-    # ---- 2️⃣ Gender Distribution ----
-    gender_counts = df["gender"].value_counts()
-    bars = axes[0, 1].bar(gender_counts.index, gender_counts.values,
-                          alpha=0.8, color=["lightcoral", "lightblue"])
-    axes[0, 1].set_title("Gender Distribution", fontweight="bold")
-    axes[0, 1].set_xlabel("Gender")
-    axes[0, 1].set_ylabel("Count")
-
-    for bar in bars:
-        height = bar.get_height()
-        if np.isfinite(height):
-            axes[0, 1].text(bar.get_x() + bar.get_width() / 2., height,
-                            f"{int(height)} ({height / len(df) * 100:.1f}%)",
-                            ha="center", va="bottom")
-
-    # ---- 3️⃣ Age by Gender ----
-    sns.boxplot(data=df, x="gender", y="anchor_age", ax=axes[1, 0])
-    axes[1, 0].set_title("Age Distribution by Gender", fontweight="bold")
-    axes[1, 0].set_xlabel("Gender")
-    axes[1, 0].set_ylabel("Age (years)")
-
-    # ---- 4️⃣ Mortality (if available) ----
-    if "hospital_expire_flag" in df.columns:
-        df["age_group"] = pd.cut(df["anchor_age"],
-                                 bins=[0, 30, 50, 70, 90, np.inf],
-                                 labels=["<30", "30–50", "50–70", "70–90", "90+"])
-
-        mortality = df.groupby("age_group", observed=False)["hospital_expire_flag"].agg(["count", "sum"])
-        mortality["mortality_rate"] = (mortality["sum"] / mortality["count"] * 100).fillna(0)
-
-        bars = axes[1, 1].bar(mortality.index.astype(str),
-                              mortality["mortality_rate"],
-                              color="orange", alpha=0.7)
-        axes[1, 1].set_title("Mortality Rate by Age", fontweight="bold")
-        axes[1, 1].set_xlabel("Age Group")
-        axes[1, 1].set_ylabel("Mortality Rate (%)")
-        axes[1, 1].tick_params(axis="x", rotation=45)
-
-        for bar in bars:
-            height = bar.get_height()
-            if np.isfinite(height):
-                axes[1, 1].text(bar.get_x() + bar.get_width() / 2., height,
-                                f"{height:.1f}%", ha="center", va="bottom")
-
-    plt.tight_layout(rect=[0, 0, 1, 0.97])
-    plt.savefig(save_path, dpi=300, bbox_inches="tight")
-    plt.close(fig)
-
 
 def plot_demographics(df, data_type, save_path):
     """Create demographics plots"""
@@ -205,7 +117,7 @@ def plot_length_of_stay(demo_data, data_type, save_path):
 def plot_clinical_conditions_analysis(diagnoses, save_path):
     """Analyze clinical conditions from ICD codes"""
 
-    fig, ax = plt.subplots(1, 1, figsize=(7, 7))
+    fig, ax = plt.subplots(1, 1, figsize=(7, 4))
     fig.suptitle("Hospital Clinical Conditions Analysis", fontsize=16, fontweight="bold")
 
     # Top 15 primary diagnoses (seq_num = 1)
@@ -343,6 +255,7 @@ def plot_admission_types_analysis(admissions_data, save_path):
     plt.show()
     plt.close()
 
+
 def plot_readmission_analysis(readmissions_df, patient_readmissions, save_path):
     """Create readmission analysis plots"""
 
@@ -433,49 +346,30 @@ def plot_mortality_analysis(hosp_mortality, icu_mortality, save_path):
     plt.close()
 
 
-def plot_lab_tests_frequency(test_frequency, category_frequency, tests_per_patient, tests_per_admission,
-                             save_path):
-    fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+def plot_lab_tests_frequency(test_frequency,  tests_per_admission, save_path):
+    fig, axes = plt.subplots(2,  figsize=(12, 12))
     fig.suptitle("Laboratory Test Frequency Analysis", fontsize=16, fontweight="bold")
 
     # Top 20 most frequent tests
     top_20_tests = test_frequency.head(20)
     y_pos = np.arange(len(top_20_tests))
-    axes[0, 0].barh(y_pos, top_20_tests["test_count"])
-    axes[0, 0].set_yticks(y_pos)
-    axes[0, 0].set_yticklabels([label[:40] + "..." if len(label) > 40 else label
+    axes[0].barh(y_pos, top_20_tests["test_count"])
+    axes[0].set_yticks(y_pos)
+    axes[0].set_yticklabels([label[:40] + "..." if len(label) > 40 else label
                                 for label in top_20_tests["label"]], fontsize=8)
-    axes[0, 0].set_xlabel("Number of Tests")
-    axes[0, 0].set_title("Top 20 Most Frequently Ordered Lab Tests")
-    axes[0, 0].invert_yaxis()
-
-    # Category frequency
-    if category_frequency is not None:
-        top_categories = category_frequency.head(15)
-        axes[0, 1].bar(range(len(top_categories)), top_categories.values)
-        axes[0, 1].set_xticks(range(len(top_categories)))
-        axes[0, 1].set_xticklabels(top_categories.index, rotation=45, ha="right")
-        axes[0, 1].set_ylabel("Number of Tests")
-        axes[0, 1].set_title("Tests by Category")
-
-    # Tests per patient distribution
-    axes[1, 0].hist(tests_per_patient, bins=50, alpha=0.7, edgecolor="black")
-    axes[1, 0].set_xlabel("Number of Tests per Patient")
-    axes[1, 0].set_ylabel("Number of Patients")
-    axes[1, 0].set_title("Distribution of Tests per Patient")
-    axes[1, 0].axvline(tests_per_patient.median(), color="red", linestyle="--",
-                       label=f"Median: {tests_per_patient.median():.0f}")
-    axes[1, 0].legend()
+    axes[0].set_xlabel("Number of Tests")
+    axes[0].set_title("Top 20 Most Frequently Ordered Lab Tests")
+    axes[0].invert_yaxis()
 
     # Tests per admission distribution
     if tests_per_admission is not None:
-        axes[1, 1].hist(tests_per_admission, bins=50, alpha=0.7, edgecolor="black")
-        axes[1, 1].set_xlabel("Number of Tests per Admission")
-        axes[1, 1].set_ylabel("Number of Admissions")
-        axes[1, 1].set_title("Distribution of Tests per Admission")
-        axes[1, 1].axvline(tests_per_admission.median(), color="red", linestyle="--",
+        axes[1].hist(tests_per_admission, bins=50, alpha=0.7, edgecolor="black")
+        axes[1].set_xlabel("Number of Tests per Admission")
+        axes[1].set_ylabel("Number of Admissions")
+        axes[1].set_title("Distribution of Tests per Admission")
+        axes[1].axvline(tests_per_admission.median(), color="red", linestyle="--",
                            label=f"Median: {tests_per_admission.median():.0f}")
-        axes[1, 1].legend()
+        axes[1].legend()
 
     plt.tight_layout()
     plt.savefig(save_path, dpi=300, bbox_inches="tight")
