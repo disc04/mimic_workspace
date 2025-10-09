@@ -7,6 +7,13 @@ MODEL_PATH = Path("models")
 RESULTS_PATH = Path("results")
 DATA_PATH = Path("data")
 
+# mimic data tables
+hosp_files = ["patients", "admissions", "diagnoses_icd", "d_icd_diagnoses",
+              "labevents", "d_labitems", "services", "transfers", "prescriptions",
+              "procedures_icd", "d_icd_procedures", "emar"]
+
+icu_files = ["icustays", "chartevents", "d_items", "procedureevents", "inputevents"]
+
 mimic_iv_data_sources = [{"name": "transfers", "datatype": "categorical", "time_col": "intime",
                           "value_col": None, "label_col": "careunit"},
 
@@ -30,6 +37,26 @@ mimic_iv_data_sources = [{"name": "transfers", "datatype": "categorical", "time_
 
                          {"name": "icu_procedures", "datatype": "continuous", "start_col": "starttime",
                           "end_col": "endtime", "value_col": None,  "label_col": "label"}]
+
+
+patients_columns = ["hadm_id", "race", "insurance", "gender",
+                        "anchor_age", "dod", "admission_type", "hospital_expire_flag"]
+transfers_columns = ['hadm_id', 'intime', 'outtime', 'icuunit']
+diagnoses_icd_columns = ["hadm_id", "seq_num", "icd_code", "icd_version"]
+d_icd_diagnoses_columns = ["icd_code", "icd_version", "long_title"]
+procedureevents_columns = ["hadm_id", "starttime", "endtime", "itemid", "value", "valueuom"]
+d_items_columns = ["hadm_id", "label", "category"]
+procedures_icd_columns = ["hadm_id", "seq_num", "icd_code", "icd_version"]
+d_icd_procedures_columns = ["icd_code", "icd_version", "long_title"]
+prescriptions_columns = ["hadm_id", "starttime", "stoptime", "drug", "dose_val_rx", "dose_unit_rx", "route"]
+emar_columns = ["hadm_id", "charttime", "medication", "pharmacy_id"]
+inputevents_columns = ["hadm_id", "starttime", "endtime", "itemid", "rate", "rateuom", "label_full"]
+labevents_columns = ["hadm_id", "charttime", "itemid", "value", "valuenum", "valueuom", "flag"]
+d_labitems_columns = [ "label", "fluid", "category "]
+icustays_columns = ["hadm_id", "stay_id", "intime", "outtime"]
+chartevents_columns = ["charttime", "itemid", "value", "valuenum", "valueuom"]
+
+
 
 
 service_codes_dict = {'CMED': 'Cardiac Medical',
