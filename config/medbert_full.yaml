@@ -1,0 +1,13 @@
+# just example template
+data:
+  admissions_path: "gs://mimic/admissions.parquet"
+  diagnoses_path: "gs://mimic/diagnoses.parquet"
+  patients_path: "gs://mimic/patients.parquet"
+model:
+  pretrained_name: "microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext"
+  num_train_epochs: 5
+  batch_size: 16
+  learning_rate: 2e-5
+  max_length: 128
+output:
+  model_dir: "gs://models/medbert_diagnoses_prediction"

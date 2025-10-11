@@ -1,13 +1,13 @@
 from os.path import join
 from pathlib import Path
 from utils.bq_utils import get_bq_client, extract_admissions_data_bq
-from utils import data_utils, timeseries_utils
-from configuration import DATA_PATH
+from utils import data_utils, local_timeseries_utils
+from config.project_configuration import DATA_PATH
 
-mimic4_path = join(Path(__file__).parent.parent,
+mimic4_path = join(Path(__file__).parent.parent.parent,
                    DATA_PATH,
                    "mimic-iv-clinical-database-demo-2.2")
-results_path = join(Path(__file__).parent.parent, "results")
+results_path = join(Path(__file__).parent.parent.parent, "results")
 
 # TODO build timeseries utils in BigQuery, currently use local timeseries_utils
 
@@ -41,7 +41,7 @@ def analyze_single_admission_bq(project_id: str,
                                               return_as_cohort=False)
     results = results_dict[hadm_id]
 
-    ts_results, messages = timeseries_utils.generate_single_admission_time_series_data(
+    ts_results, messages = local_timeseries_utils.generate_single_admission_time_series_data(
         data_dict=results,
         time_resolution_hours=time_resolution_hours,
         observation_window_hours=observation_window_hours)
@@ -59,7 +59,7 @@ def analyze_single_admission_bq(project_id: str,
 
 
 def main():
-    project_id = "mimic-project"
+    project_id = "mimic_eda_local-project"
     dataset_id = "mimic_iv"
     hadm_ids = [24698912, 29974575]
     hadm_id = hadm_ids[0]

@@ -3,7 +3,7 @@ from os.path import join
 from zipfile import ZipFile
 import pandas as pd
 from icdmappings import Mapper
-from configuration import mimic_iv_data_sources, vitals_keywords
+from config.project_configuration import mimic_iv_data_sources, vitals_keywords
 from utils import med_utils
 import re
 # pip install icd-mappings

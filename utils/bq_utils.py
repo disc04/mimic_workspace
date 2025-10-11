@@ -341,3 +341,8 @@ def get_services(client: bigquery.Client,
     services_query = query_builder.build_services_query(project_id,
                                                         dataset_id)
     return execute_query(client, services_query).to_dataframe()
+
+
+# TODO
+def export_table_to_gcs(client, table_name, gcs_uri):
+    pass
