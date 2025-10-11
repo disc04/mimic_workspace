@@ -2,12 +2,12 @@ import os
 from os.path import join
 from pathlib import Path
 
-# PROJECT_ROOT_PATH = Path(__file__).parent.parent
-MODEL_PATH = Path("models")
-RESULTS_PATH = Path("results")
-DATA_PATH = Path("data")
+PROJECT_ROOT_PATH = Path(__file__).parent.parent
+CONFIG_PATH = join(PROJECT_ROOT_PATH, "config")
+DATA_PATH = join(PROJECT_ROOT_PATH, "data")
+RESULTS_PATH = Path(PROJECT_ROOT_PATH,"results")
 
-# mimic data tables
+# mimic_eda_local data tables
 hosp_files = ["patients", "admissions", "diagnoses_icd", "d_icd_diagnoses",
               "labevents", "d_labitems", "services", "transfers", "prescriptions",
               "procedures_icd", "d_icd_procedures", "emar"]
@@ -55,8 +55,6 @@ labevents_columns = ["hadm_id", "charttime", "itemid", "value", "valuenum", "val
 d_labitems_columns = [ "label", "fluid", "category "]
 icustays_columns = ["hadm_id", "stay_id", "intime", "outtime"]
 chartevents_columns = ["charttime", "itemid", "value", "valuenum", "valueuom"]
-
-
 
 
 service_codes_dict = {'CMED': 'Cardiac Medical',

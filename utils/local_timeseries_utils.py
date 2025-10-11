@@ -3,7 +3,7 @@ import numpy as np
 from datetime import timedelta
 from utils.data_utils import (get_admit_discharge_times, clean_column_name,
                               date_and_time_to_datetime, filter_by_time_window_consistency)
-from configuration import mimic_iv_data_sources
+from config.project_configuration import mimic_iv_data_sources
 
 
 def generate_single_admission_time_series_data(data_dict: dict,

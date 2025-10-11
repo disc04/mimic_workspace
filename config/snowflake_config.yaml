@@ -1,0 +1,8 @@
+# example template
+account: myaccount.region.snowflakecomputing.com
+user: username
+warehouse: MIMIC_WH
+database: MIMIC_DB
+schema: PUBLIC
+role: ANALYST
+stage: @mimic_stage

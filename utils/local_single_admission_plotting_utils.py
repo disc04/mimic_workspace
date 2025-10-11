@@ -1,20 +1,19 @@
 from pathlib import Path
 from os.path import join
-import random
 import matplotlib.pyplot as plt
 from utils import data_utils
-from lab_test_context import labs_dashboard
-from vitals_context import bp_columns, vitals_dashboard
+from config.lab_test_context import labs_dashboard
+from config.vitals_context import bp_columns, vitals_dashboard
 
 # from utils.data_utils import extract_zip_file, dataframe_from_csv, load_mimic_iv_data, convert_icd_codes
 # from utils.mimic_timeseries_utils import mimic_bin_timeseries_data
-from configuration import medications_exclusions
+from config.project_configuration import medications_exclusions
 
-from configuration import DATA_PATH
+from config.project_configuration import DATA_PATH
 
 mimic4_path = join(Path(__file__).parent.parent,
                    DATA_PATH,
-                   'mimic-iv-clinical-database-demo-2.2')
+                   'mimic_eda_local-iv-clinical-database-demo-2.2')
 results_path = join(Path(__file__).parent.parent, 'results')
 
 

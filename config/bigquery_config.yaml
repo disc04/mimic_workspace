@@ -1,0 +1,5 @@
+# example template
+project_id: mimic-iv-project
+dataset_id: mimic_iv_derived
+cohort_table: cohort_sepsis
+credentials_path: ~/.config/gcloud/application_default_credentials.json

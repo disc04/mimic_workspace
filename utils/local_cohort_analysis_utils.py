@@ -1,6 +1,6 @@
 import pandas as pd
 from os.path import join
-from utils import data_utils, cohort_plotting_utils
+from utils import data_utils, local_cohort_plotting_utils
 
 
 def run_demographics_analysis(admissions, icu_stays, diagnoses, results_path):
