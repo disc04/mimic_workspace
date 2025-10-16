@@ -13,11 +13,23 @@ data:
 model:
   pretrained_name: "emilyalsentzer/Bio_ClinicalBERT"
   max_length: 64
-  num_train_epochs: 2
-  batch_size: 8
-  learning_rate: 3e-5
   weight_decay: 0.01
+  learning_rate_head: 5e-4
+  learning_rate_tuner: 2e-5
+  num_train_epochs_head: 3
+  num_train_epochs_tuner: 3
+  per_device_train_batch_size: 16
+  report_to: "mlflow"
+  eval_strategy: "epoch"
+  save_strategy: "epoch"
+  logging_strategy: "epoch"
+  load_best_model_at_end: True
 
 output:
   model_dir: "./models/medbert_poc"
   results_dir: "./results/"
+
+mlflow:
+  tracking_uri: "file:./mlruns"
+  experiment_name: "MedBERT_POC"
+  autolog: true

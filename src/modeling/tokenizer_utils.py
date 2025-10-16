@@ -4,7 +4,7 @@ from transformers import BertTokenizerFast
 from datasets import Dataset
 
 
-def prepare_datasets(train_df, test_df, tokenizer_name="emilyalsentzer/Bio_ClinicalBERT", max_length=64):
+def prepare_datasets(device, train_df, test_df, tokenizer_name="emilyalsentzer/Bio_ClinicalBERT", max_length=64):
     tokenizer = BertTokenizerFast.from_pretrained(tokenizer_name)
 
     def tokenize(batch):
@@ -21,6 +21,6 @@ def prepare_datasets(train_df, test_df, tokenizer_name="emilyalsentzer/Bio_Clini
     train_ds = train_ds.map(tokenize, batched=True)
     test_ds = test_ds.map(tokenize, batched=True)
 
-    train_ds.set_format("torch", columns=["input_ids", "attention_mask", "label"])
-    test_ds.set_format("torch", columns=["input_ids", "attention_mask", "label"])
+    train_ds.set_format("torch", columns=["input_ids", "attention_mask", "label"], device=device)
+    test_ds.set_format("torch", columns=["input_ids", "attention_mask", "label"], device=device)
     return train_ds, test_ds, tokenizer

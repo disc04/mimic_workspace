@@ -1,10 +1,10 @@
 from typing import List
 import re
-from config.project_configuration import (patients_columns, vitals_keywords, transfers_columns,
-                                          diagnoses_icd_columns, d_icd_diagnoses_columns,
-                                          procedureevents_columns, d_items_columns, procedures_icd_columns,
-                                          d_icd_procedures_columns, prescriptions_columns, emar_columns, inputevents_columns,
-                                          labevents_columns, d_labitems_columns, icustays_columns, chartevents_columns)
+from config.project_config import (patients_columns, vitals_keywords, transfers_columns,
+                                   diagnoses_icd_columns, d_icd_diagnoses_columns,
+                                   procedureevents_columns, d_items_columns, procedures_icd_columns,
+                                   d_icd_procedures_columns, prescriptions_columns, emar_columns, inputevents_columns,
+                                   labevents_columns, d_labitems_columns, icustays_columns, chartevents_columns)
 
 
 def build_admissions_query(project_id: str,
