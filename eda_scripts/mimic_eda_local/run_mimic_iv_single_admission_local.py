@@ -3,7 +3,7 @@ from os.path import join
 from utils import data_utils
 from utils import local_timeseries_utils
 from utils import local_single_admission_plotting_utils
-from config.project_configuration import DATA_PATH
+from config.project_config import DATA_PATH
 
 mimic4_path = join(Path(__file__).parent.parent.parent,
                    DATA_PATH,
